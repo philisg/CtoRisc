@@ -1,0 +1,33 @@
+# program executable name
+TARGET = main
+
+# compiler flags
+CFLAGS = -g -Wall
+
+# linker flags
+LDFLAGS = -g -fno-common -static -fno-builtin-printf -specs=htif_nano.specs
+
+# List of sources
+SOURCES = $(shell find -name "*.c")
+
+# default rule, to compile everything
+all: $(TARGET)
+
+# define object files
+OBJECTS = $(SOURCES:.c=.o)
+
+# link programs
+$(TARGET): $(OBJECTS)
+	$(CC) $(LDFLAGS) -o $@ $^ 
+#gcc $(LDFLAGS) -o $@ $^
+	
+
+# compile
+%.o : %.c
+	$(CC) $(CFLAGS) -c -o $@ $< 
+#gcc $(CFLAGS) -c -o $@ $<
+	
+
+# cleaning
+clean:
+	rm -f $(TARGET) $(OBJECTS)
